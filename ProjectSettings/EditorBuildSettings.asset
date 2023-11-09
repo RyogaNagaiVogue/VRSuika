@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/HalloweenSuika.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Scenes/NormalSuika.unity
+    guid: 328f1bf1654531e4c924ce7580374969
+  m_configObjects:
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 7fcfa70aa8ef07d4590c9b25311a3537, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cfd4a80bfc701434d8dae029b8be0f9f, type: 2}
