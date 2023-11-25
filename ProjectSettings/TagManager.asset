@@ -13,6 +13,7 @@ TagManager:
   - FruitAppear
   - Candy
   - Button
+  - AvatarFace
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Floor
   - Mirror
   - UIButton
-  - 
+  - AvatarFace
   - 
   - 
   - 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using TMPro;
+using System.Runtime.CompilerServices;
 
 public class FruitAppear : MonoBehaviour
 {
@@ -16,13 +17,24 @@ public class FruitAppear : MonoBehaviour
 
     public GameObject audioObject;//音関係
     AudioSource audioSource;//音関係
-    [SerializeField] private AudioClip drop, reset;//SE
+    [SerializeField] private AudioClip drop, reset, countDown, finish;//SE
     public int totalFruitsNumber = 0;//今のフルーツナンバー
     public Score score;
     public CSVReader csvReader;
     public TextMeshProUGUI gameoverText;
+    bool isGameNow = false;
+    [SerializeField] private TextMeshProUGUI countDownText;
+    private int limitTime;
+    [SerializeField] public int remainTime;
+
     void Start()
     {
+        limitTime = remainTime;//制限時間を記録
+        remainTime += 4;//カウントダウン分の４sec追加
+    }
+    void fruitAppear()
+    {
+
         int n = Random.Range(0, fruit.Length);//n個のフルーツの中からランダムに
         currentFruits = Instantiate(fruit[n], respawnFruit.transform.position, respawnFruit.transform.rotation);//��̈ʒu�Ɏ��̃t���[�c���o��������
         currentFruits.GetComponent<CombineFruits>().isAlreadyDropped = false;//�r���Ƀh���b�v�������̔��� �r�������яo�����I�u�W�F�N�g���𔻒肷�鏉���������_�ł�false
@@ -60,15 +72,42 @@ public class FruitAppear : MonoBehaviour
 
     void Update()
     {
-        if (isGameOver)
+        if (!isGameNow)
         {
-            if (Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);//���Ȃ���
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                audioSource = audioObject.GetComponent<AudioSource>();
+                audioSource.PlayOneShot(countDown);//321ぽーんのやつを流す
+                remainTimeUpdate();
+                Invoke("fruitAppear", 3.0f); // 関数fruitAppearを3秒後に実行
+            }
         }
-        /*else
-        {
-         
-        }*/
+    }
 
+    void remainTimeUpdate()
+    {
+        remainTime--;
+        if (remainTime > 0)//残り時間を更新します
+        {
+            if (remainTime > limitTime) countDownText.text = limitTime.ToString();//カウントダウン時は動かさない
+            else countDownText.text = remainTime.ToString();
+            Invoke("remainTimeUpdate", 1.0f); // 関数remainTimeUpdateを1秒後に実行
+        }
+        else if (remainTime >= 0)//時間がおわったら
+        {
+            if (!isGameOver)
+            {
+                GameObject[] droppedFruits = GameObject.FindGameObjectsWithTag("Fruit");
+                foreach (GameObject droppedFruit in droppedFruits)
+                {
+                    droppedFruit.GetComponent<Rigidbody>().isKinematic = true;//全てのフルーツを停止させます
+                }
+                isGameOver = true;
+                countDownText.text = "Finish";
+                audioSource = audioObject.GetComponent<AudioSource>();
+                audioSource.PlayOneShot(finish);//おわりのやつを流す
+            }
+        }
     }
 
 

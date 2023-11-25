@@ -31,6 +31,7 @@ public class judgeGameOver : MonoBehaviour
                     droppedFruit.GetComponent<Rigidbody>().isKinematic = true;//�S�t���[�c�̋@�\���~������
                 }
                 fruitAppear.isGameOver = true;
+                fruitAppear.remainTime = 0;
                 Debug.Log("GameOver");
                 textMeshProUGUI.text = "ゲームオーバー";
                 audioSource.PlayOneShot(gameoverSE);//SEをならす
